@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FridgeDisplay.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace FridgeAid.Api.Data
 {
@@ -9,5 +11,6 @@ namespace FridgeAid.Api.Data
         }
 
         // DbSet'ene tilføjes her, når modelklasserne er lavet
+        public DbSet<Measurement> Measurements { get; set; }
     }
 }
