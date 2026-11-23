@@ -1,39 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-using Xunit;
-using FridgeDisplay.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
 using FridgeDisplay.Models;
+using FridgeDisplay.Repositories;
+using FridgeAid.Api.Data;
 
 namespace TestingGround.Repositories
 {
     public class MeasurementRepoDBTests
     {
+        private readonly FridgeAidDbContext _context;
+        private readonly MeasurementRepoDB _repository;
+        public MeasurementRepoDBTests()
+        {
+            var options = new DbContextOptionsBuilder<FridgeAidDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+            _context = new FridgeAidDbContext(options);
+            _repository = new MeasurementRepoDB(_context);
+        }
+
         [Fact]
         public void TestIfAddMeasurementReturnsMeasurement()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<MeasurementDBContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
-                .Options;
-            using (var context = new MeasurementDBContext(options))
+            var measurement = new Measurement
             {
-                var repository = new MeasurementRepoDB(context);
-                var measurement = new Measurement
-                {
-                    Id = 1,
-                    Value = 25.5,
-                    Timestamp = DateTime.Now
-                };
-                // Act
-                var result = repository.AddMeasurement(measurement);
-                // Assert
-                Assert.NotNull(result);
-                Assert.Equal(measurement.Id, result.Id);
-                Assert.Equal(measurement.Value, result.Value);
-                Assert.Equal(measurement.Timestamp, result.Timestamp);
-            }
+                Id = 1,
+                temperature = 25.5
+            };
+            // Act
+            var result = _repository.AddMeasurement(measurement);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(measurement.temperature, result.temperature);
+
+            var saved = _context.Measurements.Find(measurement.Id);
+            Assert.NotNull(saved);
+
         }
     }
 }

@@ -1,19 +1,22 @@
-﻿using FridgeDisplay.Models;
+﻿using FridgeAid.Api.Data;
+using FridgeDisplay.Models;
 
 namespace FridgeDisplay.Repositories
 {
     public class MeasurementRepoDB : IMeasurementRepository
     {
-        private readonly MeasurementDBContext _context;
+        private readonly FridgeAidDbContext _context;
 
-        public MeasurementRepoDB(MeasurementDBContext context)
+        public MeasurementRepoDB(FridgeAidDbContext context)
         {
             _context = context;
         }
 
         public Measurement AddMeasurement(Measurement measurement)
         {
-
+            _context.Measurements.Add(measurement);
+            _context.SaveChanges();
+            return measurement;
         }
 
         public IEnumerable<Measurement> GetAllMeasurements()
