@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<FridgeAidDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("FridgeAidDb"),ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("FridgeAidDb"))));
+    options.UseMySQL(builder.Configuration.GetConnectionString("FridgeAidDb")));
 
 var app = builder.Build();
 
