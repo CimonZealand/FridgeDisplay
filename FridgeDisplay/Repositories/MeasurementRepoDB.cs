@@ -4,6 +4,13 @@ namespace FridgeDisplay.Repositories
 {
     public class MeasurementRepoDB : IMeasurementRepository
     {
+        private readonly MeasurementDBContext _context;
+
+        public MeasurementRepoDB(MeasurementDBContext context)
+        {
+            _context = context;
+        }
+
         public Measurement AddMeasurement(Measurement measurement)
         {
 
