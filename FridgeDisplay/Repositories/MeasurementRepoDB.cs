@@ -1,5 +1,6 @@
 ﻿using FridgeAid.Api.Data;
 using FridgeDisplay.Models;
+using System.Diagnostics.Metrics;
 
 namespace FridgeDisplay.Repositories
 {
@@ -22,6 +23,17 @@ namespace FridgeDisplay.Repositories
         public IEnumerable<Measurement> GetAllMeasurements()
         {
             throw new NotImplementedException();
+        }
+
+        public Measurement? GetLatest() 
+        {
+            if (!_context.Measurements.Any())
+            {
+                return null;
+            }
+            return _context.Measurements
+                .OrderByDescending(m => m.Id) // via order by decending finder den seneste measurement, da id er auto incrementeret.
+                .First();
         }
 
         public Measurement? GetMeasurementById(int id)
