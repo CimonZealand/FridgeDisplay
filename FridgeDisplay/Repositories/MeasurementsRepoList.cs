@@ -6,7 +6,7 @@ namespace FridgeDisplay.Repositories
         private readonly List<Measurement> _measurements = new List<Measurement>();
         private int _nextId = 1;
 
-        public MeasurementsRepoList(bool includesTestData = true)
+        public MeasurementsRepoList(bool includesTestData = false)
         {
             if (includesTestData == true)
             {
@@ -20,27 +20,42 @@ namespace FridgeDisplay.Repositories
 
         public Measurement AddMeasurement(Measurement measurement)
         {
-            throw new NotImplementedException();
+            // metoden skal tilføje measurement til listen og tilføje et unikt id til measurement, som er auto incrementeret
+            measurement.Id = _nextId++;
+            _measurements.Add(measurement);
+            return measurement;
         }
 
-        public IEnumerable<Measurement> GetAllMeasurements()
+        public Measurement GetLatest()
         {
-            throw new NotImplementedException();
+            //Metoden skal returnere det seneste measurement i listen. Hvis listen er tom, skal den returnere null.
+            if (_measurements.Count == 0)
+            {
+                return null;
+            }
+            return _measurements.Last();
         }
 
-        public Measurement? GetMeasurementById(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Measurement RemoveMeasurement(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Measurement? UpdateMeasurement(int id, Measurement updatedMeasurement)
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<Measurement> GetAllMeasurements()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Measurement? GetMeasurementById(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Measurement RemoveMeasurement(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Measurement? UpdateMeasurement(int id, Measurement updatedMeasurement)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
