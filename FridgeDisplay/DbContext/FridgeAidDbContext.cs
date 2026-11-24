@@ -12,5 +12,6 @@ namespace FridgeAid.Api.Data
 
         // DbSet'ene tilføjes her, når modelklasserne er lavet
         public DbSet<Measurement> Measurements { get; set; }
+        public DbSet<Admin> Admins { get; set; }
     }
 }
