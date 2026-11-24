@@ -8,6 +8,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+// CORS - backenden skal give tilladelse til frontenden, fordi frontenden kører på en anden origin
+builder.Services.AddCors(options =>  // slår CORS-funktionen til i API'et
+{
+    options.AddPolicy("AllowAll", policy =>  // laver en regel med navnet "AllowAll", som bruges senere
+    {
+        policy.AllowAnyOrigin()    // alle websider (origins) må kalde API'et
+              .AllowAnyMethod()    // alle HTTP-metoder er tilladt (GET, POST, DELETE…)
+              .AllowAnyHeader();   // alle headers er tilladt (fx Content-Type og Authorization)
+    });
+});
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -23,6 +35,9 @@ builder.Services.AddScoped<IMeasurementRepository, MeasurementRepoDB>();
 
 var app = builder.Build();
 
+//Cors
+app.UseCors("AllowAll");
+
 //Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -35,7 +50,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//Når vi skal sætte roller på
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
