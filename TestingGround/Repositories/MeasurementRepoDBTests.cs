@@ -25,18 +25,17 @@ namespace TestingGround.Repositories
             var measurement = new Measurement
             {
                 Id = 1,
-                temperature = 25.5
+                Temperature = 25.5
             };
             // Act
             var result = _repository.AddMeasurement(measurement);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(measurement.temperature, result.temperature);
+            Assert.Equal(measurement.Temperature, result.Temperature);
 
             var saved = _context.Measurements.Find(measurement.Id);
             Assert.NotNull(saved);
-
         }
     }
 }
