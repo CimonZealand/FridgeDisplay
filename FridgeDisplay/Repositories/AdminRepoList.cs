@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace FridgeDisplay.Repositories
 {
-    public class AdminRepoList : 
+    public class AdminRepoList : IAdminRepo
     {
         private readonly List<Admin> _admins = new List<Admin>();
         private readonly PasswordHasher<Admin> _hasher = new PasswordHasher<Admin>();
@@ -13,7 +13,7 @@ namespace FridgeDisplay.Repositories
             if (includesTestData == true)
             {
                 // Testdata: kun til tests, aldrig et rigtigt password
-                Admin admin = new Admin { Id = 1, UserName = "admin" };
+                Admin admin = new(Admin) { Id = 1, UserName = "admin" };
                 admin.PasswordHash = _hasher.HashPassword(admin, "Test1234!");
                 _admins.Add(admin);
             }
