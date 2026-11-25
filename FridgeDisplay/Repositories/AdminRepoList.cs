@@ -13,7 +13,7 @@ namespace FridgeDisplay.Repositories
             if (includesTestData == true)
             {
                 // Testdata: kun til tests, aldrig et rigtigt password
-                Admin admin = new(Admin) { Id = 1, UserName = "admin" };
+                Admin admin = new Admin { Id = 1, UserName = "admin" };
                 admin.PasswordHash = _hasher.HashPassword(admin, "Test1234!");
                 _admins.Add(admin);
             }
