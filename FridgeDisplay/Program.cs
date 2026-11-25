@@ -1,7 +1,8 @@
 using FridgeAid.Api.Data;
 using FridgeDisplay.Repositories;
 using Microsoft.EntityFrameworkCore;
-
+using FridgeDisplay.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,32 @@ builder.Services.AddDbContext<FridgeAidDbContext>(options =>
 //Dependency injection til MeasurementRepoDB, så den kan bruges i controlleren.
 builder.Services.AddScoped<IMeasurementRepository, MeasurementRepoDB>();
 
+//builder.Services.AddScoped<IAdminRepo, AdminRepoDB>();  //login til admin 
+
 var app = builder.Build();
+
+// ----------Opretter admin-brugeren én gang, hvis den ikke findes i databasen----------
+//using (IServiceScope scope = app.Services.CreateScope())
+//{
+//    FridgeAidDbContext context = scope.ServiceProvider.GetRequiredService<FridgeAidDbContext>();
+
+//    if (!context.Admins.Any())
+//    {
+//        string? adminPassword = builder.Configuration["AdminPassword"];
+
+//        if (!string.IsNullOrEmpty(adminPassword))
+//        {
+//            Admin admin = new Admin { UserName = "admin" };
+//            PasswordHasher<Admin> hasher = new PasswordHasher<Admin>();
+//            admin.PasswordHash = hasher.HashPassword(admin, adminPassword);
+
+//            context.Admins.Add(admin);
+//            context.SaveChanges();
+//        }
+//    }
+//}
+
+
 
 //Cors
 app.UseCors("AllowAll");
