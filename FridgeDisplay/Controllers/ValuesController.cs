@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FridgeDisplay.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using FridgeDisplay.Models;
 
 namespace FridgeDisplay.Controllers
 {
@@ -7,5 +9,21 @@ namespace FridgeDisplay.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IMeasurementRepository _measurementRepository;
+        public ValuesController(IMeasurementRepository measurementRepository)
+        {
+            _measurementRepository = measurementRepository;
+        }
+
+        [HttpGet("latest")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult<Measurement> GetLatest() { 
+            var latestMeasurement = _measurementRepository.GetLatest();
+            if (latestMeasurement == null)
+            {
+                return NoContent();
+            }
+            return Ok(latestMeasurement);}
     }
 }
