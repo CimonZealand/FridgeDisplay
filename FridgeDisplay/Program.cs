@@ -33,7 +33,7 @@ builder.Services.AddDbContext<FridgeAidDbContext>(options =>
 
 //Dependency injection til MeasurementRepoDB, så den kan bruges i controlleren.
 //builder.Services.AddScoped<IMeasurementRepository, MeasurementRepoDB>();
-builder.Services.AddSingleton<IMeasurementRepository, MeasurementsRepoList>();
+builder.Services.AddSingleton<IMeasurementRepository>(new MeasurementsRepoList(includesTestData: true));
 
 //builder.Services.AddScoped<IAdminRepo, AdminRepoDB>();  //login til admin 
 
