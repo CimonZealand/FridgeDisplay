@@ -22,7 +22,7 @@ namespace FridgeDisplay.Repositories
 
         public IEnumerable<Measurement> GetAllMeasurements()
         {
-            throw new NotImplementedException();
+            return _context.Measurements.ToList();
         }
 
         public Measurement? GetLatest() 
@@ -38,7 +38,7 @@ namespace FridgeDisplay.Repositories
 
         public Measurement? GetMeasurementById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Measurements.FirstOrDefault(p => p.Id == id);
         }
 
         public Measurement RemoveMeasurement(int id)
@@ -48,7 +48,14 @@ namespace FridgeDisplay.Repositories
 
         public Measurement? UpdateMeasurement(int id, Measurement updatedMeasurement)
         {
-            throw new NotImplementedException();
+            Measurement? measurement = GetMeasurementById(id);
+            if (measurement == null)
+            {
+                return null;
+            }
+            _context.Measurements.Remove(measurement);
+            _context.SaveChanges();
+            return measurement;
         }
     }
 }
