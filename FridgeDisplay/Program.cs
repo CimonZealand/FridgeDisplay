@@ -31,7 +31,8 @@ builder.Services.AddDbContext<FridgeAidDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("FridgeAidDb")));
 
 //Dependency injection til MeasurementRepoDB, så den kan bruges i controlleren.
-builder.Services.AddScoped<IMeasurementRepository, MeasurementRepoDB>();
+//builder.Services.AddScoped<IMeasurementRepository, MeasurementRepoDB>();
+builder.Services.AddSingleton<IMeasurementRepository, MeasurementsRepoList>();
 
 var app = builder.Build();
 

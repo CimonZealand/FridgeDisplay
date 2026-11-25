@@ -7,10 +7,10 @@ namespace FridgeDisplay.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class MeasurementsController : ControllerBase
     {
         private readonly IMeasurementRepository _measurementRepository;
-        public ValuesController(IMeasurementRepository measurementRepository)
+        public MeasurementsController(IMeasurementRepository measurementRepository)
         {
             _measurementRepository = measurementRepository;
         }
