@@ -1,5 +1,4 @@
 ﻿using FridgeDisplay.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FridgeDisplay.Models;
 
@@ -9,8 +8,8 @@ namespace FridgeDisplay.Controllers
     [ApiController]
     public class MeasurementsController : ControllerBase
     {
-        private readonly IMeasurementRepository _measurementRepository;
-        public MeasurementsController(IMeasurementRepository measurementRepository)
+        private readonly IMeasurementRepo _measurementRepository;
+        public MeasurementsController(IMeasurementRepo measurementRepository)
         {
             _measurementRepository = measurementRepository;
         }

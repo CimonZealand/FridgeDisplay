@@ -2,13 +2,10 @@
 using FridgeDisplay.Models;
 using FridgeDisplay.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TestingGround.TestControllers
 {
-    public class ValuesControllerTests
+    public class MeasurementsControllerTests
     {
         [Fact]
         public void GetLatest_ReturnsNewestMeasurement()
@@ -34,7 +31,7 @@ namespace TestingGround.TestControllers
             // Act
             var result = controller.GetLatest();
             // Assert
-            Assert.Null(result);
+            Assert.IsType<NoContentResult>(result.Result);
         }
     }
 }
