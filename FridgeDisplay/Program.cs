@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddAuthentication();
 
 // CORS - backenden skal give tilladelse til frontenden, fordi frontenden kører på en anden origin
 builder.Services.AddCors(options =>  // slår CORS-funktionen til i API'et
@@ -78,8 +79,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 //Når vi skal sætte roller på
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
