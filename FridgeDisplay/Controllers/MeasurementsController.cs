@@ -1,6 +1,7 @@
-﻿using FridgeDisplay.Repositories;
+﻿using FridgeDisplay.Models;
+using FridgeDisplay.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FridgeDisplay.Models;
 
 namespace FridgeDisplay.Controllers
 {
@@ -17,12 +18,24 @@ namespace FridgeDisplay.Controllers
         [HttpGet("latest")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<Measurement> GetLatest() { 
+        public ActionResult<Measurement> GetLatest()
+        {
             var latestMeasurement = _measurementRepository.GetLatest();
             if (latestMeasurement == null)
             {
                 return NoContent();
             }
-            return Ok(latestMeasurement);}
+            return Ok(latestMeasurement);
+        }
+
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public ActionResult<Measurement> Post([FromBody] Measurement value)
+        {
+            var addedMeasurement = _measurementRepository.AddMeasurement(value);
+            return StatusCode(201, addedMeasurement);
+        }
+
     }
 }
