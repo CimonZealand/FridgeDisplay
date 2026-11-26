@@ -6,7 +6,7 @@ namespace TestingGround
     public class UnitTest1
     {
 
-        private readonly IMeasurementRepository _repo;
+        private readonly IMeasurementRepo _repo;
         public UnitTest1()
         {
             _repo = new MeasurementsRepoList();
