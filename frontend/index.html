@@ -1,55 +1,96 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-	<title>Køleskabsovervågning</title>
- 
-	<!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      	rel="stylesheet">
- 
-	<!-- Vue 3 -->
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
- 
-	<!-- Axios -->
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fridge Guard – Køleskab 01</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+    <script src="index.js" defer></script>
 </head>
 <body>
- 
-<div id="app">
+    <div class="display-shell" id="app" data-api-base-url="http://localhost:5093" v-cloak>
+        <header class="display-header">
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true">
+                    <span class="icon icon-thermometer"></span>
+                </span>
+                <span>Fridge Guard</span>
+            </div>
+            <button class="admin-button" type="button" disabled>
+                Log ind / admin
+            </button>
+        </header>
 
-    <header>
-        <h1>Køleskabsovervågning</h1>
-        <button>Administration</button>
-    </header>
+        <main>
+            <div class="display-heading">
+                <div>
+                    <p class="location">Kantinen</p>
+                    <h1>Køleskab 01</h1>
+                </div>
+                <span class="demo-label">Testdata</span>
+            </div>
 
-    <main>
-        <h2>Køleskabsovervågning</h2>
+            <!-- Status uses the example intervals while the API serves demo data. -->
+            <section class="monitor" :data-status="summaryStatus.level" aria-label="Køleskabets målinger">
+                <div class="monitor-summary" aria-live="polite">
+                    <span>Samlet status</span>
+                    <span class="status-label"><span class="status-dot" aria-hidden="true"></span><span v-text="summaryStatus.label">Afventer</span></span>
+                </div>
+                <div class="readings">
+                    <section class="reading" :data-status="temperatureStatus.level" aria-labelledby="temperature-heading">
+                        <div class="reading-heading">
+                            <span class="reading-icon" aria-hidden="true">
+                                <span class="icon icon-thermometer"></span>
+                            </span>
+                            <h2 id="temperature-heading">Temperatur</h2>
+                        </div>
+                        <p class="reading-value">
+                            <span class="reading-number" v-text="Number.isFinite(temperature)
+                                ? temperature.toLocaleString('da-DK', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+                                : '—'">—</span>
+                            <span class="reading-unit">°C</span>
+                        </p>
+                        <p class="reading-detail">
+                            <span class="status-label"><span class="status-dot" aria-hidden="true"></span><span v-text="temperatureStatus.label">Afventer</span></span>
+                            <span>Eksempelinterval <strong>2–5 °C</strong></span>
+                        </p>
+                    </section>
 
-        <div class="measurement-container">
-
-            <section class="measurement-card">
-                <h2>Temperatur</h2>
-                <p class="measurement-value">{{ temperature }} °C</p>
+                    <section class="reading" :data-status="humidityStatus.level" aria-labelledby="humidity-heading">
+                        <div class="reading-heading">
+                            <span class="reading-icon" aria-hidden="true">
+                                <span class="icon icon-droplet"></span>
+                            </span>
+                            <h2 id="humidity-heading">Luftfugtighed</h2>
+                        </div>
+                        <p class="reading-value">
+                            <span class="reading-number" v-text="Number.isFinite(humidity)
+                                ? humidity.toLocaleString('da-DK', { maximumFractionDigits: 1 })
+                                : '—'">—</span>
+                            <span class="reading-unit">%</span>
+                        </p>
+                        <p class="reading-detail">
+                            <span class="status-label"><span class="status-dot" aria-hidden="true"></span><span v-text="humidityStatus.label">Afventer</span></span>
+                            <span>Eksempelinterval <strong>50–75 %</strong></span>
+                        </p>
+                    </section>
+                </div>
             </section>
 
-            <section class="measurement-card">
-                <h2>Luftfugtighed</h2>
-                <p class="measurement-value">{{ humidity }} %</p>
-            </section>
-
-        </div>
-    </main>
-
-</div>
- 
-	<!-- Bootstrap JavaScript (valgfrit) -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
- 
-	<!-- Din egen JavaScript-fil -->
-	<script src="index.js"></script>
- 
+            <footer class="display-footer">
+                <p class="last-reading">
+                    <span class="icon icon-clock" aria-hidden="true"></span>
+                    <span>Seneste måling <strong>Intet tidspunkt endnu</strong></span>
+                </p>
+                <ul class="status-key" aria-label="Betydning af statusfarver">
+                    <li data-status="optimal"><span class="status-dot" aria-hidden="true"></span>Optimal</li>
+                    <li data-status="warning"><span class="status-dot" aria-hidden="true"></span>Advarsel</li>
+                    <li data-status="alarm"><span class="status-dot" aria-hidden="true"></span>Alarm</li>
+                </ul>
+            </footer>
+        </main>
+    </div>
 </body>
 </html>
