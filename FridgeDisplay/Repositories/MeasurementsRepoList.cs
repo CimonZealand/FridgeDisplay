@@ -1,7 +1,7 @@
 ﻿using FridgeDisplay.Models;
 namespace FridgeDisplay.Repositories
 {
-    public class MeasurementsRepoList : IMeasurementRepository
+    public class MeasurementsRepoList : IMeasurementRepo
     {
         private readonly List<Measurement> _measurements = new List<Measurement>();
         private int _nextId = 1;
@@ -35,27 +35,5 @@ namespace FridgeDisplay.Repositories
             }
             return _measurements.Last();
         }
-
-
-
-        //public IEnumerable<Measurement> GetAllMeasurements()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Measurement? GetMeasurementById(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Measurement RemoveMeasurement(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Measurement? UpdateMeasurement(int id, Measurement updatedMeasurement)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
