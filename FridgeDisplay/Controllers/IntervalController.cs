@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using FridgeDisplay.Models;
+using FridgeDisplay.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FridgeDisplay.Controllers
 {
@@ -8,24 +8,46 @@ namespace FridgeDisplay.Controllers
     [ApiController]
     public class IntervalController : ControllerBase
     {
-        // GET: api/<IntervalController>
+        private readonly IIntervalRepo _intervalRepo;
+
+        public IntervalController(IIntervalRepo intervalRepository)
+        {
+            _intervalRepo = intervalRepository;
+        }
+
+        // GET api/interval – henter de nuværende grænseværdier
         [HttpGet]
-        public IEnumerable<string> Get()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<Interval> Get()
         {
-            return new string[] { "value1", "value2" };
+            Interval interval = _intervalRepo.GetInterval();
+            return Ok(interval);
         }
 
-        // GET api/<IntervalController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // PUT api/interval – køkkenet sætter sine egne grænseværdier
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<Interval> Put(Interval interval)
         {
-            return "value";
+            try
+            {
+                Interval updated = _intervalRepo.UpdateInterval(interval);
+                return Ok(updated);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // PUT api/<IntervalController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // POST api/interval/reset – tilbage til standardværdierne
+        [HttpPost("reset")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<Interval> Reset()
         {
+            Interval interval = _intervalRepo.ResetInterval();
+            return Ok(interval);
         }
     }
 }
