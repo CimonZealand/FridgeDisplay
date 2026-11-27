@@ -36,6 +36,10 @@ builder.Services.AddDbContext<FridgeAidDbContext>(options =>
 //builder.Services.AddScoped<IMeasurementRepository, MeasurementRepoDB>();
 builder.Services.AddSingleton<IMeasurementRepo>(new MeasurementsRepoList(includesTestData: true));
 
+builder.Services.AddSingleton<IIntervalRepo>(new IntervalRepoList());
+
+//builder.Services.AddScoped<IIntervalRepo, IntervalRepoDB>(); -- vi har ikke IntervalRepoDB endnu :) 
+
 //builder.Services.AddScoped<IAdminRepo, AdminRepoDB>();  //login til admin 
 
 var app = builder.Build();
