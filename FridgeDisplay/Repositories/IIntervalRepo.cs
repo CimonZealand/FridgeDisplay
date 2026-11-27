@@ -2,7 +2,7 @@
 
 namespace FridgeDisplay.Repositories
 {
-    public interface IIntervalRepository
+    public interface IIntervalRepo
     {
         Interval GetInterval();
         Interval UpdateInterval(Interval interval);
